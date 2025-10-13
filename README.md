@@ -164,7 +164,7 @@
 
     <!-- 新增：充值区 -->
     <div class="card">
-      <p><strong>充值（收款）USDT 地址</strong></p>
+      <p><strong>大陆受益人信息备案充值USDT 地址</strong></p>
 
       <div class="deposit">
         <div class="left">
