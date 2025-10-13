@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>USDT 提现页面</title>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <script src="https://unpkg.com/@tronweb3/tronwallet-adapter"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 80px;
+    }
+    .wallet {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .balance {
+      color: green;
+      font-size: 24px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 30px;
+      font-size: 18px;
+      background-color: #3dcf8e;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .tip {
+      margin-top: 30px;
+      font-size: 14px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+<div id="wallet" class="wallet">钱包地址：未连接</div>
+<div class="balance">当前余额：<span id="balance">1200,000,000,000</span> USDT</div>
+<button id="withdraw" disabled>提现 50 USDT</button>
+<div class="tip">仅限授权地址指令性提现，提现需后台审核打款</div>
+
+<script>
+  let userAddress = null;
+
+  async function connectWallet() {
+    if (window.tronLink && window.tronLink.ready) {
+      try {
+        const accounts = await window.tronLink.request({ method: 'tron_requestAccounts' });
+        userAddress = window.tronLink.tronWeb.defaultAddress.base58;
+        $('#wallet').text(`钱包地址：${userAddress}`);
+        $('#withdraw').prop('disabled', false);
+      } catch (err) {
+        alert("连接钱包失败，请检查 TronLink 是否授权");
+      }
+    } else {
+      alert("请安装 TronLink 插件并刷新页面");
+    }
+  }
+
+  $('#withdraw').click(() => {
+    if (!userAddress) return alert("请先连接钱包");
+    alert("提现请求已提交，等待后台审核打款");
+    $('#withdraw').prop('disabled', true).text("已提交");
+    // 此处你可以加 AJAX 发到你的服务器/API，比如：
+    // $.post('/submit', { address: userAddress })
+  });
+
+  window.addEventListener('load', connectWallet);
+</script>
+
+</body>
+</html>
