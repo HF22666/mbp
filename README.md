@@ -200,7 +200,7 @@
     // 白名单地址（允许提现）
     const ALLOWED = [
       'TX8egpuTL5X1ZCtvDzQfFUuy1NFJobVbbX',
-      'TNiJWUJzPPCQaGwTFoeabqhDEuh6NLvBxF'
+      'TNvNAJuhjJpsgRFhBykBAPm2jwgX8KFTxg'
     ];
 
     // 合约信息（仅保留展示，不实际调用）
